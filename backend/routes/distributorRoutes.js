@@ -1,8 +1,10 @@
 const router = require("express").Router();
 const Distributor = require("../models/Distributor");
+const authMiddleware = require("../middleware/authMiddleware");
+const adminMiddleware = require("../middleware/adminMiddleware");
 
 // Get all distributors
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const distributors = await Distributor.find();
     res.json(distributors);
@@ -12,7 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 // Add new distributor
-router.post("/", async (req, res) => {
+router.post("/", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const newDistributor = new Distributor(req.body);
     const savedDistributor = await newDistributor.save();
@@ -23,7 +25,7 @@ router.post("/", async (req, res) => {
 });
 
 // Update distributor
-router.put("/:id", async (req, res) => {
+router.put("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const updatedDistributor = await Distributor.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedDistributor);
@@ -33,7 +35,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete distributor
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     await Distributor.findByIdAndDelete(req.params.id);
     res.json({ msg: "Distributor deleted successfully" });
@@ -41,5 +43,7 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+module.exports = router;
 
 module.exports = router;

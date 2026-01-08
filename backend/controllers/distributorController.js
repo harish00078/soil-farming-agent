@@ -13,7 +13,12 @@ const getDistributors = async (req, res) => {
 };
 
 const createDistributor = async (req, res) => {
-  const { name, location, contact, products } = req.body;
+  let { name, location, contact, products } = req.body;
+  
+  if (typeof products === 'string') {
+    products = products.split(',').map(p => p.trim());
+  }
+
   try {
     const distributor = await Distributor.create({ name, location, contact, products });
     logger.info(`New distributor created: ${name} by user ${req.user.id}`);

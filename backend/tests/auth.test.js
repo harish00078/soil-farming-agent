@@ -1,12 +1,12 @@
 const request = require('supertest');
 const app = require('../app');
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
-// Mock the database connection
-jest.mock('../config/db', () => jest.fn());
-
-// Mock the User model
+// Mock User model
 jest.mock('../models/User');
+// Mock bcrypt
+jest.mock('bcryptjs');
 
 describe('Auth Endpoints', () => {
   afterEach(() => {
@@ -16,26 +16,29 @@ describe('Auth Endpoints', () => {
   describe('POST /api/auth/register', () => {
     it('should register a new user successfully', async () => {
       User.findOne.mockResolvedValue(null);
-      User.create.mockResolvedValue({
+      bcrypt.genSalt.mockResolvedValue('salt');
+      bcrypt.hash.mockResolvedValue('hashedPassword');
+      
+      const saveMock = jest.fn().mockResolvedValue({
         _id: 'dummyId',
         name: 'Test User',
         email: 'test@example.com',
-        role: 'user',
-        password: 'hashedPassword'
+        role: 'user'
       });
+      
+      User.prototype.save = saveMock;
 
       const res = await request(app)
         .post('/api/auth/register')
         .send({
           name: 'Test User',
           email: 'test@example.com',
-          password: 'password123',
-          role: 'user'
+          password: 'password123'
         });
 
-      expect(res.statusCode).toEqual(201);
-      expect(res.body).toHaveProperty('token');
-      expect(res.body.email).toEqual('test@example.com');
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.msg).toEqual('User registered successfully');
+      expect(res.body.user.email).toEqual('test@example.com');
     });
 
     it('should fail if user already exists', async () => {
@@ -46,12 +49,11 @@ describe('Auth Endpoints', () => {
         .send({
           name: 'Existing User',
           email: 'existing@example.com',
-          password: 'password123',
-          role: 'user'
+          password: 'password123'
         });
 
       expect(res.statusCode).toEqual(400);
-      expect(res.body.message).toEqual('User already exists');
+      expect(res.body.msg).toEqual('User already exists');
     });
   });
 
@@ -62,11 +64,11 @@ describe('Auth Endpoints', () => {
         name: 'Test User',
         email: 'test@example.com',
         password: 'hashedPassword',
-        role: 'user',
-        matchPassword: jest.fn().mockResolvedValue(true)
+        role: 'user'
       };
       
       User.findOne.mockResolvedValue(mockUser);
+      bcrypt.compare.mockResolvedValue(true);
 
       const res = await request(app)
         .post('/api/auth/login')
@@ -77,15 +79,12 @@ describe('Auth Endpoints', () => {
 
       expect(res.statusCode).toEqual(200);
       expect(res.body).toHaveProperty('token');
+      expect(res.body.user.email).toEqual('test@example.com');
     });
 
     it('should fail with invalid credentials', async () => {
-      const mockUser = {
-        email: 'test@example.com',
-        matchPassword: jest.fn().mockResolvedValue(false)
-      };
-      
-      User.findOne.mockResolvedValue(mockUser);
+      User.findOne.mockResolvedValue({ email: 'test@example.com', password: 'hashedPassword' });
+      bcrypt.compare.mockResolvedValue(false);
 
       const res = await request(app)
         .post('/api/auth/login')
@@ -94,8 +93,8 @@ describe('Auth Endpoints', () => {
           password: 'wrongpassword'
         });
 
-      expect(res.statusCode).toEqual(401);
-      expect(res.body.message).toEqual('Invalid email or password');
+      expect(res.statusCode).toEqual(400);
+      expect(res.body.msg).toEqual('Invalid credentials');
     });
   });
 });

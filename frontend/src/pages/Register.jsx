@@ -1,35 +1,64 @@
-import { useState } from "react";
-import api from "../services/api";
-import { motion } from "framer-motion";
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import api from '../services/api';
+import '../index.css';
 
-export default function Register() {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+const Register = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('user'); // Default to user
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/auth/register", form);
-      alert("Registered successfully");
-    } catch {
-      alert("Registration failed");
+      await api.post('/auth/register', { name, email, password, role });
+      alert('Registration successful! You can now login.');
+      navigate('/login');
+    } catch (error) {
+      console.error('Registration failed:', error);
+      const msg = error.response?.data?.message || error.message || 'Registration failed';
+      alert(`Registration Error: ${msg}`);
     }
   };
 
   return (
-    <motion.div 
-      className="glass-panel"
-      initial={{ x: 100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 50 }}
-      style={{ maxWidth: 400, margin: "auto" }}
-    >
-      <h2 style={{ textAlign: "center" }}>Join Us</h2>
+    <div className="register-container">
+      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
-        <input placeholder="Name" onChange={e=>setForm({...form,name:e.target.value})} />
-        <input placeholder="Email" onChange={e=>setForm({...form,email:e.target.value})} />
-        <input type="password" placeholder="Password" onChange={e=>setForm({...form,password:e.target.value})} />
-        <button style={{ width: "100%", marginTop: 10 }}>Register</button>
+        <input 
+          type="text" 
+          placeholder="Name" 
+          value={name} 
+          onChange={(e) => setName(e.target.value)} 
+          required 
+        />
+        <input 
+          type="email" 
+          placeholder="Email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+          required 
+        />
+        <input 
+          type="password" 
+          placeholder="Password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+          required 
+        />
+        <select value={role} onChange={(e) => setRole(e.target.value)} style={{marginBottom: '10px'}}>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button type="submit">Register</button>
       </form>
-    </motion.div>
+      <p style={{ marginTop: '1rem' }}>
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
+    </div>
   );
-}
+};
+
+export default Register;

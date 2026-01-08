@@ -1,8 +1,10 @@
 const router = require("express").Router();
 const Soil = require("../models/Soil");
+const authMiddleware = require("../middleware/authMiddleware");
+const adminMiddleware = require("../middleware/adminMiddleware");
 
 // Get all soils
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const soils = await Soil.find();
     res.json(soils);
@@ -12,7 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 // Add new soil
-router.post("/", async (req, res) => {
+router.post("/", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const newSoil = new Soil(req.body);
     const savedSoil = await newSoil.save();
@@ -23,7 +25,7 @@ router.post("/", async (req, res) => {
 });
 
 // Update soil
-router.put("/:id", async (req, res) => {
+router.put("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const updatedSoil = await Soil.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedSoil);
@@ -33,7 +35,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete soil
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     await Soil.findByIdAndDelete(req.params.id);
     res.json({ msg: "Soil deleted successfully" });
@@ -41,5 +43,7 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+module.exports = router;
 
 module.exports = router;

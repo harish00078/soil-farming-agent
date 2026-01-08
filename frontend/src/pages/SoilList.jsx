@@ -43,9 +43,6 @@ const SoilList = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        // Convert comma-separated crops to array if needed by backend, 
-        // or backend handles it. Let's send it as is or split it.
-        // Assuming backend expects string or array. Let's send string for now as per simple models.
       await api.post('/soils', newSoil);
       alert('Soil added successfully!');
       setNewSoil({ name: '', description: '', crops: '', phLevel: '' });
@@ -122,3 +119,5 @@ const SoilList = () => {
     </div>
   );
 };
+
+export default SoilList;

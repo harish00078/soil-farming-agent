@@ -13,7 +13,12 @@ const getSoils = async (req, res) => {
 };
 
 const createSoil = async (req, res) => {
-  const { name, description, crops, phLevel } = req.body;
+  let { name, description, crops, phLevel } = req.body;
+  
+  if (typeof crops === 'string') {
+    crops = crops.split(',').map(c => c.trim());
+  }
+
   try {
     const soil = await Soil.create({ name, description, crops, phLevel });
     logger.info(`New soil created: ${name} by user ${req.user.id}`);

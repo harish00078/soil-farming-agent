@@ -1,37 +1,60 @@
-import { useState } from "react";
-import api from "../services/api";
-import { motion } from "framer-motion";
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import api from '../services/api';
+import '../index.css';
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post("/auth/login", { email, password });
+      const { data } = await api.post('/auth/login', { email, password });
       localStorage.setItem('token', data.token);
-      localStorage.setItem('role', data.role); // Save role for UI logic
+      localStorage.setItem('role', data.user.role);
       navigate('/soils');
     } catch (error) {
-      alert("Login failed");
+      console.error('Login failed:', error);
+      const msg = error.response?.data?.message || error.message || 'Login failed';
+      alert(`Login Error: ${msg}`);
     }
   };
 
   return (
-    <motion.div 
-      className="glass-panel"
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 100 }}
-      style={{ maxWidth: 400, margin: "auto" }}
-    >
-      <h2 style={{ textAlign: "center" }}>Welcome Back</h2>
-      <form onSubmit={handleLogin}>
-        <input placeholder="Email" onChange={e => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-        <button style={{ width: "100%", marginTop: 10 }}>Login</button>
+    <div className="login-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <input 
+          type="email" 
+          placeholder="Email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+          required 
+        />
+        <input 
+          type="password" 
+          placeholder="Password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+          required 
+        />
+        <button type="submit">Login</button>
       </form>
-    </motion.div>
+      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+        <p>Don't have an account?</p>
+        <Link to="/register" style={{ 
+          color: '#4CAF50', 
+          fontWeight: 'bold', 
+          textDecoration: 'underline',
+          fontSize: '1.1rem' 
+        }}>
+          Register here
+        </Link>
+      </div>
+    </div>
   );
-}
+};
+
+export default Login;
