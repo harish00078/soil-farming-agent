@@ -1,0 +1,143 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* --- Container Styles --- */
+.login-container, .register-container, .soil-list, .distributor-list {
+  max-width: 500px;
+  margin: 100px auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+/* --- Form Elements --- */
+input, select {
+  width: 90%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(45deg, #4CAF50, #45a049);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+a {
+  color: #81c784;
+  text-decoration: none;
+  margin-top: 15px;
+  display: inline-block;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #a5d6a7;
+}
+
+/* --- Starry Background Animation --- */
+/* Function to generate random stars box-shadow string would be in SASS, 
+   but here we simulate it with a simple repeating pattern or just use a few layers */
+
+.star-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.stars, .stars2, .stars3 {
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  box-shadow: 
+    10vw 10vh #FFF, 20vw 80vh #FFF, 30vw 20vh #FFF, 80vw 10vh #FFF, 
+    50vw 50vh #FFF, 90vw 90vh #FFF, 40vw 30vh #FFF, 10vw 90vh #FFF,
+    70vw 40vh #FFF, 25vw 60vh #FFF, 60vw 15vh #FFF, 85vw 35vh #FFF; 
+  /* This is a small set. For a real dense field, we need a lot more shadows or an image.
+     To make it look good without 1000 lines of CSS, I'll use a simple background pattern approach. */
+}
+
+/* Better approach for CSS Stars without massive box-shadow strings: */
+.stars {
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  animation: stars-move 100s linear infinite;
+  opacity: 0.8;
+}
+
+.stars2 {
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(3px 3px at 50px 100px, #eee, rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 100px 50px, #fff, rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 150px 150px, #ddd, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  animation: stars-move 150s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes stars-move {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1000px);
+  }
+}
