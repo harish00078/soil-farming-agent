@@ -1,184 +1,309 @@
-/* General Styling */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+:root {
+  --primary: #4ade80;
+  --primary-hover: #22c55e;
+  --bg-dark: #0f1c15;
+  --glass-bg: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --text-main: #f0fdf4;
+  --text-muted: #bbf7d0;
+  --danger: #ef4444;
+  --info: #3b82f6;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #121212;
+  background-color: var(--bg-dark); /* Fallback */
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Glassmorphism Card Utility */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 16px;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5em;
+  color: var(--primary);
+}
+
+p {
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* Buttons */
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary);
+  color: #052e16;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Inputs */
+input, select, textarea {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  color: white;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1000px;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+  box-sizing: border-box;
+}
+
+/* We reuse glass-panel style in component but here are specific nav styles */
+.navbar-glass {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 50px; /* Pill shape */
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-right: 32px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: white;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+}
+
+.logout-button {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 8px 16px;
+  border-radius: 30px;
+}
+.logout-button:hover {
+  background-color: var(--danger);
   color: white;
 }
 
-/* 3D Background Canvas */
-#canvas-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-}
-
-/* Centered Forms (Login/Register) */
+/* Auth Pages */
 .form-page {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  text-align: center;
+  width: 100%;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 30px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  width: 300px;
-  backdrop-filter: blur(10px);
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  box-sizing: border-box;
 }
 
-form h2 {
-  margin-top: 0;
-  color: #4CAF50;
+.auth-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.auth-link:hover {
+  text-decoration: underline;
 }
 
-input,
-select {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  width: 100%; /* Ensure it takes full width of the form */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-}
-
-button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  background-color: #4CAF50;
-  color: white;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-/* List Pages (Soil/Distributor) */
+/* List Pages */
 .list-page {
-  padding: 2rem;
-  padding-top: 80px; /* Space for navbar */
-  max-width: 900px;
+  padding: 120px 20px 60px; /* Top padding clears navbar */
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-.form-container {
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 2rem;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  padding-bottom: 1rem;
 }
 
-.list-container {
+.list-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 20px;
-  align-items: stretch;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
 }
 
-.list-item {
-  background: rgba(0,0,0,0.3);
-  padding: 15px;
-  border-radius: 8px;
-  text-align: left;
+.list-card {
+  padding: 24px;
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+  box-sizing: border-box;
 }
 
-.item-content {
-  flex-grow: 1;
+.list-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+  border-color: rgba(74, 222, 128, 0.3);
 }
 
-.item-title {
-  color: #4CAF50;
+.card-title {
+  font-size: 1.5rem;
   margin-top: 0;
+  color: var(--primary);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
 }
 
-.item-actions {
+.card-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 12px;
+  margin-top: auto; /* Push to bottom */
+  padding-top: 20px;
 }
 
-.item-actions button {
-  background-color: #f44336; /* Red for delete */
-  flex-grow: 1;
+.btn-edit {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  flex: 1;
 }
-.item-actions button:first-of-type {
-  background-color: #008CBA; /* Blue for edit */
+.btn-edit:hover {
+  background-color: var(--info);
+  color: white;
 }
 
-/* Modal Styling */
+.btn-delete {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  flex: 1;
+}
+.btn-delete:hover {
+  background-color: var(--danger);
+  color: white;
+}
+
+/* Forms (Add/Edit) */
+.form-panel {
+  padding: 24px;
+  margin-bottom: 40px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Modal */
 .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-.modal {
-  background: #282c34;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
+.modal-content {
+  width: 90%;
+  max-width: 500px;
 }
 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 12px;
+  margin-top: 24px;
 }
 
-.modal-actions button[type="button"] {
-  background-color: #555;
+.btn-cancel {
+  background-color: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
 }
-
-/* Navbar */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  z-index: 10;
-}
-
-.nav-links a {
+.btn-cancel:hover {
+  background-color: rgba(255, 255, 255, 0.1);
   color: white;
-  text-decoration: none;
-  margin-right: 20px;
-  font-size: 1.1rem;
-}
-
-.logout-button {
-  background-color: #f44336;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import api from '../services/api';
 import '../index.css';
 
@@ -24,34 +25,41 @@ const Register = () => {
 
   return (
     <div className="form-page">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          placeholder="Name" 
-          value={name} 
-          onChange={(e) => setName(e.target.value)} 
-          required 
-        />
-        <input 
-          type="email" 
-          placeholder="Email" 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
-          required 
-        />
-        <input 
-          type="password" 
-          placeholder="Password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-          required 
-        />
-        <button type="submit">Register</button>
-      </form>
-      <p style={{ marginTop: '1rem' }}>
-        Already have an account? <Link to="/login">Login here</Link>
-      </p>
+      <motion.div 
+          className="glass-panel auth-card"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+      >
+        <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>Create Account</h2>
+        <form onSubmit={handleSubmit} style={{ background: 'none', padding: 0, border: 'none', width: '100%' }}>
+          <input 
+            type="text" 
+            placeholder="Name" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)} 
+            required 
+          />
+          <input 
+            type="email" 
+            placeholder="Email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            required 
+          />
+          <input 
+            type="password" 
+            placeholder="Password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+          />
+          <button type="submit" style={{ width: '100%', marginTop: '1rem' }}>Register</button>
+        </form>
+        <p style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+          Already have an account? <Link to="/login" className="auth-link">Login here</Link>
+        </p>
+      </motion.div>
     </div>
   );
 };
