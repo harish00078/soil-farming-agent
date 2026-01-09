@@ -7,24 +7,23 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user'); // Default to user
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/auth/register', { name, email, password, role });
+      await api.post('/auth/register', { name, email, password });
       alert('Registration successful! You can now login.');
       navigate('/login');
     } catch (error) {
       console.error('Registration failed:', error);
-      const msg = error.response?.data?.message || error.message || 'Registration failed';
+      const msg = error.response?.data?.message || 'Registration failed';
       alert(`Registration Error: ${msg}`);
     }
   };
 
   return (
-    <div className="register-container">
+    <div className="form-page">
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <input 
@@ -48,10 +47,6 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)} 
           required 
         />
-        <select value={role} onChange={(e) => setRole(e.target.value)} style={{marginBottom: '10px'}}>
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
         <button type="submit">Register</button>
       </form>
       <p style={{ marginTop: '1rem' }}>

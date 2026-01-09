@@ -1,4 +1,10 @@
 const mongoose = require("mongoose");
-module.exports = mongoose.model("Soil", new mongoose.Schema({
-  name:String,characteristics:String,suitableCrops:[String],moistureLevel:String
-}));
+
+const soilSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  crops: [{ type: String }],
+  phLevel: { type: String, required: true }
+}, { timestamps: true });
+
+module.exports = mongoose.model("Soil", soilSchema);

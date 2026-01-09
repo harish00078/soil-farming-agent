@@ -6,39 +6,45 @@ import SoilList from './pages/SoilList';
 import DistributorList from './pages/DistributorList';
 import Background3D from './components/Background3D';
 import ErrorBoundary from './components/ErrorBoundary';
+import Navbar from './components/Navbar';
 
 function App() {
   const PrivateRoute = ({ children }) => {
     const token = localStorage.getItem('token');
-    return token ? children : <Navigate to="/login" />;
+    return token ? (
+      <>
+        <Navbar />
+        {children}
+      </>
+    ) : (
+      <Navigate to="/login" />
+    );
   };
 
   return (
     <ErrorBoundary>
       <Router>
-        <Suspense fallback={<div style={{color: 'white'}}>Loading 3D...</div>}>
-             <Background3D /> 
-        </Suspense>
+        <Background3D />
         
-        <div style={{ position: 'relative', zIndex: 1 }}>
+        <div>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route 
-              path="/soils" 
+            <Route
+              path="/soils"
               element={
                 <PrivateRoute>
                   <SoilList />
                 </PrivateRoute>
-              } 
+              }
             />
-            <Route 
-              path="/distributors" 
+            <Route
+              path="/distributors"
               element={
                 <PrivateRoute>
                   <DistributorList />
                 </PrivateRoute>
-              } 
+              }
             />
             <Route path="/" element={<Navigate to="/login" />} />
           </Routes>
