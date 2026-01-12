@@ -109,7 +109,8 @@ input:focus, select:focus, textarea:focus {
 /* Navbar */
 .navbar {
   position: fixed;
-  top: 20px;
+  top: 0;
+  margin-top: 20px;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
@@ -118,17 +119,17 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 50;
+  z-index: 9999;
   box-sizing: border-box;
 }
 
 /* We reuse glass-panel style in component but here are specific nav styles */
 .navbar-glass {
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 50px; /* Pill shape */
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.85); /* Darker background for visibility */
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
 }
 
 .nav-links a {
@@ -145,15 +146,16 @@ input:focus, select:focus, textarea:focus {
 }
 
 .logout-button {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: var(--danger);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background-color: var(--danger); /* Solid red for max visibility */
+  color: #ffffff; /* White text */
+  border: 1px solid var(--danger);
   padding: 8px 16px;
   border-radius: 30px;
+  font-weight: 600;
 }
 .logout-button:hover {
-  background-color: var(--danger);
-  color: white;
+  background-color: #dc2626;
+  transform: scale(1.05);
 }
 
 /* Auth Pages */
@@ -253,6 +255,54 @@ input:focus, select:focus, textarea:focus {
 .btn-delete:hover {
   background-color: var(--danger);
   color: white;
+}
+
+/* Distributor Section in Card */
+.distributor-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.distributor-section h4 {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-top: 0;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.distributor-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.distributor-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  margin-bottom: 8px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.dist-name {
+  color: var(--primary);
+  font-weight: 600;
+}
+.dist-loc, .dist-contact {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.no-data {
+  font-style: italic;
+  font-size: 0.85rem;
+  opacity: 0.6;
 }
 
 /* Forms (Add/Edit) */

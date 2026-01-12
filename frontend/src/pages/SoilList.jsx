@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import api from '../services/api';
 import '../index.css';
 
@@ -155,6 +156,27 @@ const SoilList = () => {
               <p><strong>pH Level:</strong> {soil.phLevel}</p>
               <p><strong>Suitable Crops:</strong> {Array.isArray(soil.crops) ? soil.crops.join(', ') : soil.crops}</p>
               
+              <div className="distributor-section">
+                <h4>Recommended Distributors:</h4>
+                {soil.distributors && soil.distributors.length > 0 ? (
+                  <ul className="distributor-list">
+                    {soil.distributors.map(d => (
+                      <li key={d._id} className="distributor-item">
+                        <Link to="/distributors" className="dist-name" style={{ textDecoration: 'none', cursor: 'pointer' }}>
+                          {d.name}
+                        </Link>
+                        <span className="dist-loc">{d.location}</span>
+                        <a href={`mailto:${d.contact}`} className="dist-contact" style={{ color: 'inherit', textDecoration: 'none' }}>
+                          {d.contact}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="no-data">No distributors linked.</p>
+                )}
+              </div>
+
               {userRole === 'admin' && (
                 <div className="card-actions">
                   <button className="btn-edit" onClick={() => openEditModal(soil)}>Edit</button>

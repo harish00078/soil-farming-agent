@@ -3,7 +3,7 @@ const logger = require('../utils/logger');
 
 const getSoils = async (req, res) => {
   try {
-    const soils = await Soil.find();
+    const soils = await Soil.find().populate('distributors');
     logger.info('Fetched all soil details');
     res.json(soils);
   } catch (error) {
@@ -13,14 +13,14 @@ const getSoils = async (req, res) => {
 };
 
 const createSoil = async (req, res) => {
-  let { name, description, crops, phLevel } = req.body;
+  let { name, description, crops, phLevel, distributors } = req.body;
   
   if (typeof crops === 'string') {
     crops = crops.split(',').map(c => c.trim());
   }
 
   try {
-    const soil = await Soil.create({ name, description, crops, phLevel });
+    const soil = await Soil.create({ name, description, crops, phLevel, distributors });
     logger.info(`New soil created: ${name} by user ${req.user.id}`);
     res.status(201).json(soil);
   } catch (error) {
@@ -30,7 +30,7 @@ const createSoil = async (req, res) => {
 };
 
 const updateSoil = async (req, res) => {
-  let { name, description, crops, phLevel } = req.body;
+  let { name, description, crops, phLevel, distributors } = req.body;
   
   if (crops && typeof crops === 'string') {
     crops = crops.split(',').map(c => c.trim());
@@ -39,7 +39,7 @@ const updateSoil = async (req, res) => {
   try {
     const soil = await Soil.findByIdAndUpdate(
       req.params.id,
-      { name, description, crops, phLevel },
+      { name, description, crops, phLevel, distributors },
       { new: true }
     );
     if (!soil) return res.status(404).json({ message: 'Soil not found' });

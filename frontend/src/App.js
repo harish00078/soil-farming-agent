@@ -8,19 +8,19 @@ import Background3D from './components/Background3D';
 import ErrorBoundary from './components/ErrorBoundary';
 import Navbar from './components/Navbar';
 
-function App() {
-  const PrivateRoute = ({ children }) => {
-    const token = localStorage.getItem('token');
-    return token ? (
-      <>
-        <Navbar />
-        {children}
-      </>
-    ) : (
-      <Navigate to="/login" />
-    );
-  };
+const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem('token');
+  return token ? (
+    <>
+      <Navbar />
+      {children}
+    </>
+  ) : (
+    <Navigate to="/login" />
+  );
+};
 
+function App() {
   return (
     <ErrorBoundary>
       <Router>

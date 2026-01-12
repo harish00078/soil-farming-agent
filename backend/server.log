@@ -1,0 +1,10 @@
+
+> soil-farming-agent-backend@1.0.0 start
+> node server.js
+
+MongoDB Connected
+Admin user already exists. No action taken.
+Soil data already exists. Skipping data seeding.
+Backend running on port 5001
+{"level":"info","message":"Fetched all soil details"}
+{"level":"info","message":"Fetched all soil details"}
