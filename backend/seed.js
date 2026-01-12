@@ -6,8 +6,6 @@ const connectDB = require('./config/db');
 
 const seedAdmin = async () => {
   try {
-    await connectDB();
-
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
     
     // Check if an admin user already exists
@@ -47,10 +45,20 @@ const seedAdmin = async () => {
 
   } catch (error) {
     console.error('Error seeding admin user:', error.message);
-  } finally {
-    // Ensure the script exits
-    mongoose.connection.close();
   }
 };
 
-seedAdmin();
+if (require.main === module) {
+  (async () => {
+    try {
+      await connectDB();
+      await seedAdmin();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      mongoose.connection.close();
+    }
+  })();
+}
+
+module.exports = seedAdmin;
