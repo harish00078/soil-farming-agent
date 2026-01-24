@@ -1,79 +1,105 @@
-# Soil Farming Agent
+# Soil Farming Agent 🚀
 
-## Project Description
-Soil is a crucial component in agriculture. This application allows Admins to update soil information and distributor details, which can then be viewed by Users to understand which crops grow best in which soil types.
+**GitHub Link:** [student-teacher-appointment](https://github.com/harish00078/student-teacher-appointment/blob/main/README.md)
 
-## Technologies Used
-- **Frontend:** React, Axios
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB
-- **Authentication:** JWT (JSON Web Tokens)
-- **Logging:** Winston
-- **Testing:** Jest, Supertest
+**Soil Farming Agent** is a modern, full-stack agricultural management platform designed to bridge the gap between soil science and practical farming. It combines a robust MERN backend with a high-performance React frontend, featuring immersive 3D visualizations and seamless role-based access control.
 
-## Features
-- **Admin Module:**
-  - Login
-  - Post Soil Details
-  - Post Distributor Details
-- **User Module:**
-  - Register / Login
-  - View Soil Details
-  - View Distributor Details
+![React](https://img.shields.io/badge/React-18-blue) ![Node.js](https://img.shields.io/badge/Node.js-LTS-green) ![Express.js](https://img.shields.io/badge/Express-4.x-lightgrey) ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green) ![Three.js](https://img.shields.io/badge/Three.js-3D-black) ![JWT](https://img.shields.io/badge/JWT-Secure-orange)
 
-## Setup & Installation
+## ✨ Key Features
+
+* **🛡️ Secure Admin Dashboard**: Full CRUD capabilities for managing soil types, compatible crops, and distributor data.
+* **🌐 3D Immersive UI**: Features a dynamic, interactive 3D background powered by **React Three Fiber** and **Drei**.
+* **🔐 Advanced Authentication**: Role-Based Access Control (RBAC) ensuring only authorized admins can modify critical agricultural data.
+* **🚚 Distributor Integration**: Connects soil types with local suppliers, providing contact details and locations for farmers.
+* **🌾 Agricultural Intelligence**: Detailed soil profiles including pH levels, nutrient descriptions, and optimized crop suggestions.
+* **⚡ Real-time Feedback**: Fluid UI transitions and interactive elements powered by **Framer Motion**.
+
+## 🛠️ Tech Stack
+
+* **Frontend**: React 18, React Three Fiber, Framer Motion, Axios
+* **Backend**: Node.js, Express.js
+* **Database**: MongoDB (Mongoose ODM)
+* **Security**: JSON Web Tokens (JWT), Bcrypt.js
+* **Logging**: Winston
+* **Testing**: Jest, Supertest
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v14 or later)
-- MongoDB (Local or Atlas)
 
-### Backend Setup
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file in the `backend` directory with the following variables:
-   ```env
-   PORT=5000
-   MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret_key
-   ```
-4. Start the server:
-   ```bash
-   npm run dev
-   ```
+* Node.js (v16 or higher)
+* MongoDB (Local or Atlas)
+* npm or yarn
 
-### Frontend Setup
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the application:
-   ```bash
-   npm start
-   ```
+### Installation
 
-## Workflow
-1. **Registration:** Users register for an account.
-2. **Login:** Users or Admins login to access protected features.
-3. **Admin Actions:** Admins can add new soil types and distributor information.
-4. **User Actions:** Users can browse the list of available soils and distributors to make informed farming decisions.
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/harish00078/student-teacher-appointment
+    cd soil-farming-agent
+    ```
 
-## Testing
-This project includes integration tests for the backend API.
-To run the tests:
-```bash
-cd backend
-npm test
+2.  **Backend Setup**
+    ```bash
+    cd backend
+    npm install
+    ```
+    Create a `.env` file in the `backend` folder:
+    ```env
+    PORT=5000
+    MONGO_URI=your_mongodb_uri
+    JWT_SECRET=your_jwt_secret
+    ADMIN_EMAIL=admin@example.com
+    ADMIN_PASSWORD=admin123
+    ```
+    Seed the database with sample data:
+    ```bash
+    npm run seed
+    ```
+
+3.  **Frontend Setup**
+    ```bash
+    cd ../frontend
+    npm install
+    npm start
+    ```
+
+## 🔐 Admin Credentials (Default)
+
+| Field    | Value               |
+| :------- | :------------------ |
+| **Email**    | `admin@example.com` |
+| **Password** | `admin123`          |
+
+## 📁 Project Structure
+
+```text
+soil-farming-agent/
+├── backend/
+│   ├── controllers/    # Business logic for Auth, Soils, & Distributors
+│   ├── models/         # Mongoose Schemas (User, Soil, Distributor)
+│   ├── routes/         # API Endpoints
+│   ├── middleware/     # Auth & Admin validation
+│   └── tests/          # Jest Integration Tests
+└── frontend/
+    ├── src/
+    │   ├── components/ # 3D Background, Navbar, ErrorBoundaries
+    │   ├── pages/      # Login, Register, SoilList, DistributorList
+    │   └── services/   # Axios API configurations
 ```
-**Test Cases Covered:**
-- User Registration (Success/Failure)
-- User Login (Success/Failure)
+
+## 📡 API Overview
+
+* `POST /api/auth/login` - Secure login for Users & Admins
+* `GET /api/soils` - Fetch detailed soil database
+* `POST /api/soils` - Add new soil profiles (**Admin Only**)
+* `GET /api/distributors` - List agricultural suppliers
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License.
