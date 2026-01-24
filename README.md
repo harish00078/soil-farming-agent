@@ -69,8 +69,8 @@
 
 | Field    | Value               |
 | :------- | :------------------ |
-| **Email**    | `admin@example.com` |
-| **Password** | `admin123`          |
+| **Email**    | `boss123@gmail.com` |
+| **Password** | `BOSS007bond`       |
 
 ## 📁 Project Structure
 

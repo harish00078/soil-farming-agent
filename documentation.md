@@ -106,8 +106,8 @@ If you followed the setup above and ran `npm run seed`, your default Admin accou
 
 | Field    | Value               |
 | :------- | :------------------ |
-| **Email**    | `admin@example.com` |
-| **Password** | `admin123`          |
+| **Email**    | `boss123@gmail.com` |
+| **Password** | `BOSS007bond`       |
 
 > **Note:** The password is determined by the `ADMIN_PASSWORD` environment variable you set in the `backend/.env` file before running the seed script.
 
