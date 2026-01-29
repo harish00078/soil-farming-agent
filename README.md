@@ -47,7 +47,7 @@
     ```
     Create a `.env` file in the `backend` folder:
     ```env
-    PORT=5000
+    PORT=5001
     MONGO_URI=your_mongodb_uri
     JWT_SECRET=your_jwt_secret
     ADMIN_EMAIL=admin@example.com
