@@ -18,7 +18,7 @@ const Register = () => {
       navigate('/login');
     } catch (error) {
       console.error('Registration failed:', error);
-      const msg = error.response?.data?.message || 'Registration failed';
+      const msg = error.response?.data?.msg || error.response?.data?.message || 'Registration failed';
       alert(`Registration Error: ${msg}`);
     }
   };
@@ -53,7 +53,11 @@ const Register = () => {
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 
+            minLength={6}
           />
+          <small style={{ display: 'block', marginBottom: '1rem', color: '#ccc' }}>
+            Password must be at least 6 characters long.
+          </small>
           <button type="submit" style={{ width: '100%', marginTop: '1rem' }}>Register</button>
         </form>
         <p style={{ textAlign: 'center', marginTop: '1.5rem' }}>

@@ -7,6 +7,11 @@ const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    // Validate password length
+    if (password && password.length < 6) {
+      return res.status(400).json({ msg: "Password must be at least 6 characters long" });
+    }
+
     // Check if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
